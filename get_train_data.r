@@ -24,5 +24,17 @@ df_train <- df_roh[train_ind, ]
 df_test <- df_roh[-train_ind, ]
 
 # Daten speichern
-write_csv(df_train,"trainingsdaten_policy_23022022.csv")
-write_csv(df_test, "testdaten_policy_23022022.csv")
+write_csv(df_train,"trainingsdaten_policy8d_23022022.csv")
+write_csv(df_test, "testdaten_policy8d_23022022.csv")
+
+# NZB löschen.
+
+df_train <- df_train %>%
+    dplyr::filter(policy!=7)
+
+df_test <- df_test %>%
+    dplyr::filter(policy!=7)
+
+# Daten speichern
+write_csv(df_train,"trainingsdaten_policy7d_23022022.csv")
+write_csv(df_test, "testdaten_policy7d_23022022.csv")
