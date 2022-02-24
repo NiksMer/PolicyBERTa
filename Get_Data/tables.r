@@ -21,3 +21,4 @@ df_test <- read_csv("PolicyBERTa-8d/testdaten_policy8d_24022022.csv") %>%
     summarise(n=n())
 
 print(df_test)
+
