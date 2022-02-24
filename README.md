@@ -41,7 +41,7 @@ Alle kanadischen Daten dienen als Testdatensatz.
 
 | policy | Beschreibung | Anzahl |
 |------------|--------------|--------|
-| 0          | Internationale Beziehungen        | 1.1.32 |
+| 0          | Internationale Beziehungen        | 1.132 |
 | 1          | Freiheit und Demokratie       | 664 |
 | 2          | Politisches System       | 1.682 |
 | 3          | Wirtschaft       | 3.014 |
