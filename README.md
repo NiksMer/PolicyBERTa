@@ -10,14 +10,14 @@ Die Trainingsdaten sind wie folgt verteilt:
 
 | policy | Beschreibung | Anzahl |
 |------------|--------------|--------|
-| 0          | Internationale Beziehungen        | 7.762 |
-| 1          | Freiheit und Demokratie       | 5.799 |
-| 2          | Politisches System       | 11.434 |
-| 3          | Wirtschaft       | 29.228 |
-| 4          | Wohlfahrt und Qualität des Lebens       | 37.154 |
-| 5          | Gesellschaftsstruktur       | 13.613 |
-| 6          | Soziale Gruppen       | 10.787 |
-| 7          | Nicht zugeordnet      | 747 |
+| 0          | Internationale Beziehungen        | 6.969 |
+| 1          | Freiheit und Demokratie       | 5.272 |
+| 2          | Politisches System       | 10.080 |
+| 3          | Wirtschaft       | 26.808 |
+| 4          | Wohlfahrt und Qualität des Lebens       | 34.110 |
+| 5          | Gesellschaftsstruktur       | 12.398 |
+| 6          | Soziale Gruppen       | 10.264 |
+| 7          | Nicht zugeordnet      | 738 |
 
 Deutlich wird, dass es sich nicht um einen balancierten Datensatz handelt.
 ## Validierungsdaten
@@ -26,12 +26,26 @@ Der Validierungsdatensatz wurde per Zufallsauswahl aus dem Trainingsdatensatz ge
 
 | policy | Beschreibung | Anzahl |
 |------------|--------------|--------|
-| 0          | Internationale Beziehungen        | 2.047 |
-| 1          | Freiheit und Demokratie       | 1.420 |
-| 2          | Politisches System       | 2.879 |
-| 3          | Wirtschaft       | 7.318 |
-| 4          | Wohlfahrt und Qualität des Lebens       | 9.254 |
-| 5          | Gesellschaftsstruktur       | 3.305 |
-| 6          | Soziale Gruppen       | 2.734 |
-| 7          | Nicht zugeordnet      | 175 |
+| 0          | Internationale Beziehungen        | 1.708 |
+| 1          | Freiheit und Demokratie       | 1.283 |
+| 2          | Politisches System       | 2.551 |
+| 3          | Wirtschaft       | 6.724 |
+| 4          | Wohlfahrt und Qualität des Lebens       | 8.517 |
+| 5          | Gesellschaftsstruktur       | 3.135 |
+| 6          | Soziale Gruppen       | 2.571 |
+| 7          | Nicht zugeordnet      | 171 |
 
+## Testdaten
+
+Alle kanadischen Daten dienen als Testdatensatz.
+
+| policy | Beschreibung | Anzahl |
+|------------|--------------|--------|
+| 0          | Internationale Beziehungen        | 1.1.32 |
+| 1          | Freiheit und Demokratie       | 664 |
+| 2          | Politisches System       | 1.682 |
+| 3          | Wirtschaft       | 3.014 |
+| 4          | Wohlfahrt und Qualität des Lebens       | 3.781 |
+| 5          | Gesellschaftsstruktur       | 1.385 |
+| 6          | Soziale Gruppen       | 686 |
+| 7          | Nicht zugeordnet      | 13 |
