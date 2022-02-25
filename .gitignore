@@ -37,3 +37,13 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Modelflow
+mlruns/
+
+# Logs
+logs/
+
+# Modelle
+PolicyBERTa-7d/
+PolicyBERTa-8d/
