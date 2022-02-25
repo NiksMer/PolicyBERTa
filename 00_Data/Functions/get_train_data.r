@@ -40,12 +40,10 @@ write_csv(df_test, "00_Data/8d/testdaten_policy8d_24022022.csv")
 # NZB löschen.
 
 df_train <- df_train %>%
-    dplyr::filter(label!=7) %>%
-    sample_n(2000)
+    dplyr::filter(label!=7)
 
 df_val <- df_val %>%
-    dplyr::filter(label!=7) %>%
-    sample_n(500)
+    dplyr::filter(label!=7)
 
 df_test <- df_test %>%
     dplyr::filter(label!=7)
