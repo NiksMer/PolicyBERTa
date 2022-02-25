@@ -25,10 +25,10 @@ trained_model_name = "PolicyBERTa-7d"
 label_count = 7
 
 ## Anzahl Epochs
-epoch_count = 1
+epoch_count = 5
 
 ## Batch Size
-batch_size = 8
+batch_size = 16
 
 ####### Data Config ############
 
@@ -112,9 +112,10 @@ trainer.train()
 # Abspeichern
 
 ## Log speichern
-with open('log.txt', 'w',encoding='utf-8') as f:
+with open('log.json', 'w',encoding='utf-8') as f:
     f.truncate(0) # Vorher File leeren
-    f.write(str(trainer.state.log_history))
+    for obj in trainer.state.log_history:
+        f.write(str(obj))
 
 ## Modell speichern
 trainer.save_model (trained_model_name)
