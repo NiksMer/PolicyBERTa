@@ -79,6 +79,10 @@ tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 # Trainer Argumente
 training_args = TrainingArguments(
     output_dir=trained_model_name,
+    warmup_steps= 500,
+    weight_decay=0.05, 
+    learning_rate=4e-05,
+    fp16 = True,
     evaluation_strategy="epoch",
     num_train_epochs=epoch_count,
     per_device_train_batch_size=batch_size,
