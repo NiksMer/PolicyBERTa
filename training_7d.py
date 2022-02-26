@@ -22,7 +22,7 @@ model_to_use = "roberta-base"
 trained_model_name = "PolicyBERTa-7d"
 
 ## Max Sequence Length
-max_lengh_parameter = 512
+max_lengh_parameter = 514
 
 ## Anzahl Labels
 label_count = 7
