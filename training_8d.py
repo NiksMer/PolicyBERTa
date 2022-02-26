@@ -7,7 +7,7 @@ import numpy as np
 import torch
 from transformers import RobertaForSequenceClassification, TrainingArguments, Trainer, RobertaTokenizer, RobertaConfig
 from datasets import load_metric, load_dataset
-from sklearn.metrics import precision_recall_fscore_support, accuracy_score
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score, classification_report
 from tqdm import tqdm
 
 ## Cuda
@@ -21,6 +21,9 @@ n_gpu = torch.cuda.device_count()
 model_to_use = "roberta-base"
 trained_model_name = "PolicyBERTa-8d"
 
+## Max Sequence Length
+max_lengh_parameter = 514
+
 ## Anzahl Labels
 label_count = 8
 
@@ -30,16 +33,34 @@ epoch_count = 5
 ## Batch Size
 batch_size = 16
 
+## warmup_steps
+warmup_steps_parameter = 0
+
+## weight_decay
+weight_decay_parameter = 0.1
+
+## learning_rate
+learning_rate_parameter = 1e-05
+
+## Log file
+log_name = 'log_8d_learning.json'
+
+## Report
+report_name = 'report_8d_learning.txt'
+
 ####### Data Config ############
 
 ## Train Data
-train_data = "00_Data/8d/trainingsdaten_policy8d_24022022.csv"
+train_data = "00_Data/8d/trainingsdaten_policy8d_26022022.csv"
 
 ## Valid Data
-valid_data = "00_Data/8d/validierungsdaten_policy8d_24022022.csv"
+valid_data = "00_Data/8d/validierungsdaten_policy8d_26022022.csv"
 
-# Delimeter
+## Delimeter
 delimeter_char = ","
+
+## Label Names
+label_names = ["external relations","freedom and democracy","political system","economy","welfare and quality of life","fabric of society","social groups","other"]
 
 ####### Functions ############
 
@@ -70,28 +91,54 @@ raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation'
 # %%
 # config
 config = RobertaConfig(model_to_use)
-# Tokenizer
-tokenizer = RobertaTokenizer.from_pretrained(model_to_use,config=config)
+config.id2label = {
+    "0": "external relations",
+    "1": "freedom and democracy",
+    "2": "political system",
+    "3": "economy",
+    "4": "welfare and quality of life",
+    "5": "fabric of society",
+    "6": "social groups",
+    "7": "other"}
+config.label2id = {
+    "external relations": 0,
+    "freedom and democracy": 1,
+    "political system": 2,
+    "economy": 3,
+    "welfare and quality of life": 4,
+    "fabric of society": 5,
+    "social groups": 6,
+    "other": 7    
+}
 
+# Tokenizer
+tokenizer = RobertaTokenizer.from_pretrained(model_to_use,config=config,model_max_length=max_lengh_parameter)
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 
 # %%
 # Trainer Argumente
 training_args = TrainingArguments(
     output_dir=trained_model_name,
+    warmup_steps=warmup_steps_parameter,
+    weight_decay=weight_decay_parameter, 
+    learning_rate=learning_rate_parameter,
+    fp16 = True,
     evaluation_strategy="epoch",
     num_train_epochs=epoch_count,
     per_device_train_batch_size=batch_size,
     overwrite_output_dir=True,
     per_device_eval_batch_size=batch_size,
     save_strategy="epoch",
-    logging_dir='logs',        
-    logging_steps=1)
+    logging_dir='logs',   
+    logging_strategy= 'steps',     
+    logging_steps=10)
 
 # %%
+# Modell laden
 model = RobertaForSequenceClassification.from_pretrained(model_to_use, num_labels=label_count)
 
 # %%
+# Trainer definieren
 trainer = Trainer(
     model=model,
     args=training_args,
@@ -101,15 +148,24 @@ trainer = Trainer(
 )
 
 # %%
+# Trainieren
 trainer.train()
+
+# %%
+# Evaluate for Classification Report
+predictions, labels, _ = trainer.predict(tokenized_datasets["validation"])
+predictions = np.argmax(predictions, axis=1)
+with open(report_name,'w',encoding='utf-8') as f:
+    f.truncate(0) # Vorher File leeren
+    f.write(classification_report(y_pred=predictions,y_true=labels,target_names=label_names))
 # %% 
 # Abspeichern
 
 ## Log speichern
-with open('log_8d.json', 'w',encoding='utf-8') as f:
+with open(log_name, 'w',encoding='utf-8') as f:
     f.truncate(0) # Vorher File leeren
     for obj in trainer.state.log_history:
-        f.write(str(obj))
+        f.write(str(obj)+'\n')
 
 ## Modell speichern
 trainer.save_model (trained_model_name)
