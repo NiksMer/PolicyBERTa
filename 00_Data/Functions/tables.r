@@ -15,3 +15,9 @@ df_val <- read_csv("00_Data/8d/validierungsdaten_policy8d_26022022.csv") %>%
     summarise(n=n())
 
 print(df_val)
+
+df_test <- read_csv("00_Data/8d/testdaten_policy8d_26022022.csv") %>%
+    group_by(label) %>%
+    summarise(n=n())
+
+print(df_test)
