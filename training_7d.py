@@ -34,19 +34,19 @@ epoch_count = 5
 batch_size = 16
 
 ## warmup_steps
-warmup_steps_parameter = 500
+warmup_steps_parameter = 0
 
 ## weight_decay
 weight_decay_parameter = 0.1
 
 ## learning_rate
-learning_rate_parameter = 4e-05
+learning_rate_parameter = 1e-05
 
 ## Log file
-log_name = 'log_7d.json'
+log_name = 'log_7d_learning.json'
 
 ## Report
-report_name = 'report_7d.txt'
+report_name = 'report_7d_learning.txt'
 
 ####### Data Config ############
 
