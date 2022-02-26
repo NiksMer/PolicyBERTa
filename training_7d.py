@@ -91,9 +91,26 @@ raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation'
 # %%
 # config
 config = RobertaConfig(model_to_use)
+config.id2label = {
+    "0": "external relations",
+    "1": "freedom and democracy",
+    "2": "political system",
+    "3": "economy",
+    "4": "welfare and quality of life",
+    "5": "fabric of society",
+    "6": "social groups"}
+config.label2id = {
+    "external relations": 0,
+    "freedom and democracy": 1,
+    "political system": 2,
+    "economy": 3,
+    "welfare and quality of life": 4,
+    "fabric of society": 5,
+    "social groups": 6    
+}
+
 # Tokenizer
 tokenizer = RobertaTokenizer.from_pretrained(model_to_use,config=config,model_max_length=max_lengh_parameter)
-
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 
 # %%
