@@ -9,46 +9,28 @@ df_roh <- read_csv("https://raw.githubusercontent.com/NiksMer/get_manifesto_data
 
 # Filtern auf Trainingsdaten. Canada wird herausgefiltert.
 df_train_roh <- df_roh %>%
-    select(text,policy,countryname) %>%
-    dplyr:: filter(countryname!="Canada") %>%
-    select(-countryname) %>%
+    select(text,policy,corpus_code) %>%
+    dplyr:: filter(!corpus_code %in% c("62110_200810","62320_200406","62320_200601","62320_200810","62420_200406","62420_200601","62420_200810","62623_200406","62623_200601","62623_200810")) %>%
+    select(-corpus_code) %>%
     rename(label = policy)
 
 df_test <- df_roh %>%
-    select(text,policy,countryname) %>%
-    dplyr:: filter(countryname=="Canada") %>%
-    select(-countryname) %>%
+    select(text,policy,corpus_code) %>%
+    dplyr:: filter(corpus_code %in% c("62110_200810","62320_200406","62320_200601","62320_200810","62420_200406","62420_200601","62420_200810","62623_200406","62623_200601","62623_200810")) %>%
+    select(-corpus_code) %>%
     rename(label = policy)
 
+## 85% of the sample size
+smp_size <- floor(0.85 * nrow(df_train_roh))
 
-## 80% Trainingsgröße
-smp_size <- floor(0.8 * nrow(df_train_roh))
-
-## Seed definieren für Reproduzierbarkeit
+## set the seed to make your partition reproducible
 set.seed(123)
 train_ind <- sample(seq_len(nrow(df_train_roh)), size = smp_size)
 
-# Daten schneiden
 df_train <- df_train_roh[train_ind, ]
 df_val <- df_train_roh[-train_ind, ]
 
 # Daten speichern
-write_csv(df_train,"00_Data/8d/trainingsdaten_policy8d_24022022.csv")
-write_csv(df_val, "00_Data/8d/validierungsdaten_policy8d_24022022.csv")
-write_csv(df_test, "00_Data/8d/testdaten_policy8d_24022022.csv")
-
-# NZB löschen.
-
-df_train <- df_train %>%
-    dplyr::filter(label!=7)
-
-df_val <- df_val %>%
-    dplyr::filter(label!=7)
-
-df_test <- df_test %>%
-    dplyr::filter(label!=7)
-
-# Daten speichern
-write_csv(df_train,"00_Data/7d/trainingsdaten_policy7d_24022022.csv")
-write_csv(df_val,"00_Data/7d/validierungsdaten_policy7d_24022022.csv")
-write_csv(df_test, "00_Data/7d/testdaten_policy7d_24022022.csv")
+write_csv(df_train,"00_Data/7d/trainingsdaten_policy7d_27022022.csv")
+write_csv(df_val,"00_Data/7d/validierungsdaten_policy7d_27022022.csv")
+write_csv(df_test,"00_Data/7d/testdaten_policy7d_27022022.csv")
