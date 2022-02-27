@@ -31,22 +31,6 @@ df_train <- df_train_roh[train_ind, ]
 df_val <- df_train_roh[-train_ind, ]
 
 # Daten speichern
-write_csv(df_train,"00_Data/8d/trainingsdaten_policy8d_26022022.csv")
-write_csv(df_val, "00_Data/8d/validierungsdaten_policy8d_26022022.csv")
-write_csv(df_test, "00_Data/8d/testdaten_policy8d_26022022.csv")
-
-# NZB löschen.
-
-df_train <- df_train %>%
-    dplyr::filter(label!=7)
-
-df_val <- df_val %>%
-    dplyr::filter(label!=7)
-
-df_test <- df_test %>%
-    dplyr::filter(label!=7)
-
-# Daten speichern
-write_csv(df_train,"00_Data/7d/trainingsdaten_policy7d_26022022.csv")
-write_csv(df_val,"00_Data/7d/validierungsdaten_policy7d_26022022.csv")
-write_csv(df_test,"00_Data/7d/testdaten_policy7d_26022022.csv")
+write_csv(df_train,"00_Data/7d/trainingsdaten_policy7d_27022022.csv")
+write_csv(df_val,"00_Data/7d/validierungsdaten_policy7d_27022022.csv")
+write_csv(df_test,"00_Data/7d/testdaten_policy7d_27022022.csv")

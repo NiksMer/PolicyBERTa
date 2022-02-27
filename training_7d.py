@@ -19,7 +19,7 @@ n_gpu = torch.cuda.device_count()
 
 ## Modelname
 model_to_use = "roberta-base"
-trained_model_name = "PolicyBERTa-7d"
+trained_model_name = "PolicyBERTa"
 
 ## Max Sequence Length
 max_lengh_parameter = 514
@@ -28,10 +28,16 @@ max_lengh_parameter = 514
 label_count = 7
 
 ## Anzahl Epochs
-epoch_count = 5
+if n_gpu > 1 :
+    epoch_count = 5
+else:
+    epoch_count = 1
 
 ## Batch Size
-batch_size = 16
+if n_gpu > 1 :
+    batch_size = 16
+else:
+    batch_size = 4
 
 ## warmup_steps
 warmup_steps_parameter = 0
@@ -43,18 +49,22 @@ weight_decay_parameter = 0.1
 learning_rate_parameter = 1e-05
 
 ## Log file
-log_name = 'log_7d_learning.json'
+log_name = 'log_policyberta.json'
 
 ## Report
-report_name = 'report_7d_learning.txt'
+validatipon_report_name = 'validation_report_policyberta.txt'
+test_report_name = 'test_report_policyberta.txt'
 
 ####### Data Config ############
 
 ## Train Data
-train_data = "00_Data/7d/trainingsdaten_policy7d_26022022.csv"
+train_data = "00_Data/7d/trainingsdaten_policy7d_27022022.csv"
 
 ## Valid Data
-valid_data = "00_Data/7d/validierungsdaten_policy7d_26022022.csv"
+valid_data = "00_Data/7d/validierungsdaten_policy7d_27022022.csv"
+
+## Test Data
+test_data = "00_Data/7d/testdaten_policy7d_27022022.csv"
 
 ## Delimeter
 delimeter_char = ","
@@ -86,7 +96,7 @@ def compute_metrics(pred):
 
 # %%
 # Daten laden
-raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation':[valid_data]},delimiter=delimeter_char)
+raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation':[valid_data],'test': [test_data]},delimiter=delimeter_char)
 
 # %%
 # config
@@ -151,9 +161,19 @@ trainer.train()
 
 # %%
 # Evaluate for Classification Report
+## Validation
 predictions, labels, _ = trainer.predict(tokenized_datasets["validation"])
 predictions = np.argmax(predictions, axis=1)
-with open(report_name,'w',encoding='utf-8') as f:
+with open(validatipon_report_name,'w',encoding='utf-8') as f:
+    f.truncate(0) # Vorher File leeren
+    f.write(classification_report(y_pred=predictions,y_true=labels,target_names=label_names))
+
+# %%
+# Evaluate for Classification Report
+## Test
+predictions, labels, _ = trainer.predict(tokenized_datasets["test"])
+predictions = np.argmax(predictions, axis=1)
+with open(test_report_name,'w',encoding='utf-8') as f:
     f.truncate(0) # Vorher File leeren
     f.write(classification_report(y_pred=predictions,y_true=labels,target_names=label_names))
 # %% 
