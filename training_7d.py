@@ -19,7 +19,7 @@ n_gpu = torch.cuda.device_count()
 
 ## Modelname
 model_to_use = "roberta-base"
-trained_model_name = "PolicyBERTa"
+trained_model_name = "PolicyBERTa-7d"
 
 ## Max Sequence Length
 max_lengh_parameter = 514
@@ -70,7 +70,36 @@ test_data = "00_Data/7d/testdaten_policy7d_27022022.csv"
 delimeter_char = ","
 
 ## Label Names
-label_names = ["external relations","freedom and democracy","political system","economy","welfare and quality of life","fabric of society","social groups"]
+label_names = [
+    "external relations",
+    "freedom and democracy",
+    "political system",
+    "economy",
+    "welfare and quality of life",
+    "fabric of society",
+    "social groups"
+    ]
+
+## Config Dicts
+id2label_parameter = {
+    "0": "external relations",
+    "1": "freedom and democracy",
+    "2": "political system",
+    "3": "economy",
+    "4": "welfare and quality of life",
+    "5": "fabric of society",
+    "6": "social groups"
+    }
+
+label2id_parameter = {
+    "external relations": 0,
+    "freedom and democracy": 1,
+    "political system": 2,
+    "economy": 3,
+    "welfare and quality of life": 4,
+    "fabric of society": 5,
+    "social groups": 6
+}
 
 ####### Functions ############
 
@@ -101,23 +130,8 @@ raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation'
 # %%
 # config
 config = RobertaConfig(model_to_use)
-config.id2label = {
-    "0": "external relations",
-    "1": "freedom and democracy",
-    "2": "political system",
-    "3": "economy",
-    "4": "welfare and quality of life",
-    "5": "fabric of society",
-    "6": "social groups"}
-config.label2id = {
-    "external relations": 0,
-    "freedom and democracy": 1,
-    "political system": 2,
-    "economy": 3,
-    "welfare and quality of life": 4,
-    "fabric of society": 5,
-    "social groups": 6    
-}
+config.id2label = id2label_parameter
+config.label2id = label2id_parameter
 
 # Tokenizer
 tokenizer = RobertaTokenizer.from_pretrained(model_to_use,config=config,model_max_length=max_lengh_parameter)
