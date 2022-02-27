@@ -1,0 +1,13 @@
+                             precision    recall  f1-score   support
+
+         external relations       0.75      0.77      0.76      1345
+      freedom and democracy       0.63      0.58      0.60      1043
+           political system       0.60      0.52      0.56      2038
+                    economy       0.75      0.75      0.75      5140
+welfare and quality of life       0.75      0.80      0.77      6554
+          fabric of society       0.69      0.68      0.68      2384
+              social groups       0.60      0.57      0.59      1957
+
+                   accuracy                           0.71     20461
+                  macro avg       0.68      0.67      0.67     20461
+               weighted avg       0.71      0.71      0.71     20461

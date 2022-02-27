@@ -49,11 +49,11 @@ weight_decay_parameter = 0.1
 learning_rate_parameter = 1e-05
 
 ## Log file
-log_name = 'log_policyberta.json'
+log_name = '02_Reports/log_policyberta.json'
 
 ## Report
-validatipon_report_name = 'validation_report_policyberta.txt'
-test_report_name = 'test_report_policyberta.txt'
+validatipon_report_name = '02_Reports/validation_report_policyberta.txt'
+test_report_name = '02_Reports/test_report_policyberta.txt'
 
 ####### Data Config ############
 
@@ -201,5 +201,4 @@ with open(log_name, 'w',encoding='utf-8') as f:
 
 ## Modell speichern
 trainer.save_model (trained_model_name)
-
 # %%
