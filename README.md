@@ -31,7 +31,7 @@ Der Validierungsdatensatz wurde per Zufallsauswahl aus dem Trainingsdatensatz ge
 | 3          | Wirtschaft       | 5.140 |
 | 4          | Wohlfahrt und Qualität des Lebens       | 6.554 |
 | 5          | Gesellschaftsstruktur       | 2.384 |
-| 6          | Soziale Gruppen       | 1.952 |
+| 6          | Soziale Gruppen       | 1.957 |
 
 ## Testdaten
 
