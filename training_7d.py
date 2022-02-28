@@ -5,7 +5,7 @@
 import pandas as pd
 import numpy as np
 import torch
-from transformers import RobertaForSequenceClassification, TrainingArguments, Trainer, RobertaTokenizer, RobertaConfig
+from transformers import RobertaForSequenceClassification, TrainingArguments, Trainer, RobertaTokenizer
 from datasets import load_metric, load_dataset
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score, classification_report
 from tqdm import tqdm
@@ -49,11 +49,11 @@ weight_decay_parameter = 0.1
 learning_rate_parameter = 1e-05
 
 ## Log file
-log_name = 'log_policyberta.json'
+log_name = '02_Reports/log_policyberta.json'
 
 ## Report
-validatipon_report_name = 'validation_report_policyberta.txt'
-test_report_name = 'test_report_policyberta.txt'
+validatipon_report_name = '02_Reports/validation_report_policyberta.txt'
+test_report_name = '02_Reports/test_report_policyberta.txt'
 
 ####### Data Config ############
 
@@ -129,12 +129,19 @@ raw_datasets  = load_dataset('csv',data_files={'train':[train_data],'validation'
 
 # %%
 # config
-config = RobertaConfig(model_to_use)
-config.id2label = id2label_parameter
-config.label2id = label2id_parameter
+#config = RobertaConfig(model_to_use)
+#config.id2label = id2label_parameter
+#config.label2id = label2id_parameter
 
 # Tokenizer
-tokenizer = RobertaTokenizer.from_pretrained(model_to_use,config=config,model_max_length=max_lengh_parameter)
+RobertaTokenizer.from_pretrained(
+    model_to_use,
+    model_max_length=max_lengh_parameter
+    ).save_pretrained(trained_model_name)
+tokenizer = RobertaTokenizer.from_pretrained(
+    model_to_use,
+    model_max_length=max_lengh_parameter
+    )
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
 
 # %%
@@ -150,14 +157,21 @@ training_args = TrainingArguments(
     per_device_train_batch_size=batch_size,
     overwrite_output_dir=True,
     per_device_eval_batch_size=batch_size,
-    save_strategy="epoch",
+    save_strategy="no",
     logging_dir='logs',   
     logging_strategy= 'steps',     
-    logging_steps=10)
+    logging_steps=10,
+    push_to_hub=True,
+    hub_strategy="end")
 
 # %%
 # Modell laden
-model = RobertaForSequenceClassification.from_pretrained(model_to_use, num_labels=label_count)
+model = RobertaForSequenceClassification.from_pretrained(
+    model_to_use, 
+    num_labels=label_count,
+    id2label=id2label_parameter,
+    label2id=label2id_parameter
+    )
 
 # %%
 # Trainer definieren
@@ -200,6 +214,7 @@ with open(log_name, 'w',encoding='utf-8') as f:
         f.write(str(obj)+'\n')
 
 ## Modell speichern
-trainer.save_model (trained_model_name)
-
+trainer.save_model(trained_model_name)
+tokenizer.save_pretrained(trained_model_name, push_to_hub=True)
 # %%
+

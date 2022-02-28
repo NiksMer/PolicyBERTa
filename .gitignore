@@ -46,4 +46,6 @@ logs/
 
 # Modelle
 PolicyBERTa-7d/
-PolicyBERTa-8d/
+
+# Experimente
+01_Experiments/
